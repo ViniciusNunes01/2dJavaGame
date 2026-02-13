@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
@@ -35,7 +36,25 @@ public class GamePanel extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 
+		while (gameThread != null) {
+
+			// System.out.println("The game is running!");
+
+			// UPDATE: atualizar informações. ex: posição do personagem
+			update();
+
+			// DRAW: desenhar a tela com a informação atualizada
+			repaint(); //chamada do método paintComponent
+		}
+	}
+
+	public void update() {
+
+	}
+
+	public void paintComponent(Graphics g) {
+
+		super.paintComponent(g);
 	}
 }
