@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,7 @@ public class Player extends Entity {
 	public final int screenX;
 	public final int screenY;
 	public int hasKey = 0;
+	int standCounter = 0;
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -67,55 +69,58 @@ public class Player extends Entity {
 
 	public void update() {
 
-		if (keyH.upPressed == true) {
-			direction = "up";
-		} else if (keyH.downPressed == true) {
-			direction = "down";
-		} else if (keyH.leftPressed == true) {
-			direction = "left";
-		} else if (keyH.rightPressed == true) {
-			direction = "right";
-		}
+		if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true
+				|| keyH.rightPressed == true) {
 
-		// CHECK TILE COLLISION
-		collisionOn = false;
-		gp.cChecker.checkTile(this);
+			if (keyH.upPressed == true) {
+				direction = "up";
+			} else if (keyH.downPressed == true) {
+				direction = "down";
+			} else if (keyH.leftPressed == true) {
+				direction = "left";
+			} else if (keyH.rightPressed == true) {
+				direction = "right";
+			}
 
-		// CHECK OBJECT COLLISION
-		int objIndex = gp.cChecker.checkObject(this, true);
-		pickUpObject(objIndex);
+			// CHECK TILE COLLISION
+			collisionOn = false;
+			gp.cChecker.checkTile(this);
 
-		// IF COLLISION IS FALSE, PLAYER CAN MOVE
-		if (collisionOn == false) {
-			if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true
-					|| keyH.rightPressed == true) {
-				switch (direction) {
-				case "up":
-					worldY -= speed;
-					break;
-				case "down":
-					worldY += speed;
-					break;
-				case "left":
-					worldX -= speed;
-					break;
-				case "right":
-					worldX += speed;
-					break;
+			// CHECK OBJECT COLLISION
+			int objIndex = gp.cChecker.checkObject(this, true);
+			pickUpObject(objIndex);
+
+			// IF COLLISION IS FALSE, PLAYER CAN MOVE
+			if (collisionOn == false) {
+				if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true
+						|| keyH.rightPressed == true) {
+					switch (direction) {
+					case "up":
+						worldY -= speed;
+						break;
+					case "down":
+						worldY += speed;
+						break;
+					case "left":
+						worldX -= speed;
+						break;
+					case "right":
+						worldX += speed;
+						break;
+					}
 				}
+
 			}
 
-		}
-
-		spriteCounter++;
-		if (spriteCounter > 15) {
-			if (spriteNum == 1) {
-				spriteNum = 2;
-			} else if (spriteNum == 2) {
-				spriteNum = 1;
+			spriteCounter++;
+			if (spriteCounter > 15) {
+				if (spriteNum == 1) {
+					spriteNum = 2;
+				} else if (spriteNum == 2) {
+					spriteNum = 1;
+				}
+				spriteCounter = 0;
 			}
-			spriteCounter = 0;
-		}
 
 //		if (keyH.upPressed == true) {
 //			worldY -= speed;
@@ -128,6 +133,15 @@ public class Player extends Entity {
 //		} else if (keyH.rightPressed == true) {
 //			worldX += speed;
 //		}
+		} else {
+			standCounter++;
+
+			if (standCounter == 20) {
+				spriteNum = 1;
+				standCounter = 0;
+			}
+		}
+
 	}
 
 	public void pickUpObject(int i) {
@@ -212,5 +226,10 @@ public class Player extends Entity {
 			break;
 		}
 		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+		// COLLISION RECTANGLE CHECK
+		// g2.setColor(Color.red);
+		// g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width,
+		// solidArea.height);
 	}
 }
