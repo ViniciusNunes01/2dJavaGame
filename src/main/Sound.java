@@ -20,6 +20,7 @@ public class Sound {
 		soundURL[4] = getClass().getResource("/sound/door_open.wav");
 		soundURL[5] = getClass().getResource("/sound/unlock.wav");
 		soundURL[6] = getClass().getResource("/sound/stairs.wav");
+		soundURL[7] = getClass().getResource("/sound/finish.wav");
 
 	}
 
