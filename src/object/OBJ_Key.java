@@ -5,9 +5,16 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import main.GamePanel;
+
 public class OBJ_Key extends SuperObject {
 
-	public OBJ_Key() {
+	GamePanel gp;
+
+	public OBJ_Key(GamePanel gp) {
+
+		this.gp = gp;
+
 		name = "Key";
 
 		try (InputStream is = getClass().getResourceAsStream("/objects/key.png")) {
@@ -15,6 +22,7 @@ public class OBJ_Key extends SuperObject {
 				System.err.println("Resource not found: /objects/key.png");
 			} else {
 				image = ImageIO.read(is);
+				uTool.scaleImage(image, gp.tileSize, gp.tileSize);
 				if (image == null) {
 					System.err.println("Failed to decode image: /objects/key.png");
 				}
@@ -22,5 +30,6 @@ public class OBJ_Key extends SuperObject {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 }

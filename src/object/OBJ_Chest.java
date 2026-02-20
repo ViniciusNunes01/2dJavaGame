@@ -5,9 +5,15 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import main.GamePanel;
+
 public class OBJ_Chest extends SuperObject {
 
-	public OBJ_Chest() {
+	GamePanel gp;
+
+	public OBJ_Chest(GamePanel gp) {
+
+		this.gp = gp;
 
 		name = "Chest";
 
@@ -16,6 +22,7 @@ public class OBJ_Chest extends SuperObject {
 				System.err.println("Resource not found: /objects/chest.png");
 			} else {
 				image = ImageIO.read(is);
+				uTool.scaleImage(image, gp.tileSize, gp.tileSize);
 				if (image == null) {
 					System.err.println("Failed to decode image: /objects/chest.png");
 				}
